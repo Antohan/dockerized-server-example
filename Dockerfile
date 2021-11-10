@@ -2,8 +2,12 @@ FROM node:16.13-alpine
 WORKDIR /usr/src/app
 COPY package.json .
 COPY yarn.lock .
-RUN yarn install
+ARG NODE_ENV
+RUN if [ "$NODE_ENV" = "production"]; \
+    then yarn install --production; \
+    else yarn install; \
+    fi
 COPY . .
 ENV PORT 4000
 EXPOSE $PORT
-CMD ["yarn", "start"]
+CMD ["node", "index.js"]

@@ -18,18 +18,21 @@ services:
 
   server:
     container_name: server
+    restart: always
     build: .
     ports:
       - "4000:4000"
     volumes:
-      - ./:/app
+      - .\:/app
       - /app/node_modules
     environment:
       - PORT=4000
+      - NODE_END=development
     networks:
       - backend
     depends_on:
       - postgres
+    command: yarn dev
     
 volumes:
   test_data:

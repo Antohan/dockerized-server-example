@@ -52,7 +52,7 @@ sequelize.sync().then(()=>{
 
 
 server.get('/', (req, res) => {
-  User.findAll({ raw: true }).then(data => {
-    res.send(JSON.stringify(data));
+  User.findAll({ raw: true }).then((users) => {
+    res.send(`Users: ${JSON.stringify(users)}`);
   }).catch(err=>console.log(err));
 });
