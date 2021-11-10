@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - test_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  server:
+    container_name: server
+    build: .
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    environment:
+      - PORT=4000
+    networks:
+      - backend
+    depends_on:
+      - postgres
+    
+volumes:
+  test_data:
+
+networks:
+  backend:
